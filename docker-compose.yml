@@ -1,0 +1,51 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lsc-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./backend:/app
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      # Needed so systemctl talks to the host systemd instead of the container
+      - /run/systemd:/run/systemd:ro
+      - /run/dbus:/run/dbus:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    privileged: true
+    pid: host
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lsc-frontend
+    restart: unless-stopped
+    # The backend runs in host network mode and ufw blocks traffic from the
+    # docker bridge to the host, so the frontend uses the host network too.
+    network_mode: host
+    command: npm run dev -- --host 127.0.0.1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://127.0.0.1:8080
+    depends_on:
+      - backend
+
+networks:
+  default:
+    name: lsc-network
