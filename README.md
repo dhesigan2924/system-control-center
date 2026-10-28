@@ -1,6 +1,42 @@
+# ⚡ System Control Center
+**The visual, voice-activated Agentic OS controller.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#contributing)
+[![MCP Powered](https://img.shields.io/badge/Architecture-Model_Context_Protocol-blue.svg)](#architecture)
+
+---
+
+## 🛑 The Problem: Terminal Fatigue
+Tools like Open Interpreter brought Agentic AI to the local machine, but they left it trapped in the terminal. Managing an operating system shouldn't require reading endless lines of stdout or typing complex CLI commands when you just want a quick overview of your system's health. 
+
+## 💡 The Solution: GUI + Voice + MCP
+**System Control Center** bridges the gap between terminal automation and user experience. It provides a centralized React-based dashboard for real-time system monitoring, paired with an AI agent that listens to natural language and executes OS-level commands securely.
+
+### 🔥 Why This Beats Terminal-Only Agents:
+1. **Total Visual Oversight:** Monitor CPU, RAM, active processes, and rogue ports in a clean, modern UI without switching contexts.
+2. **Hands-Free Voice Control:** Speak directly to your system. The integrated Speech-to-Text engine captures intent instantly.
+3. **Secure Execution via MCP:** Instead of giving an LLM raw terminal access (which is highly dangerous), this system uses the **Model Context Protocol (MCP)**. The AI can only execute predefined, sandboxed tools, ensuring it cannot accidentally wipe your hard drive or kill critical OS services.
+
+---
+
+## 🏗️ Architecture & Data Flow
+System Control Center operates on a strict separation of concerns, ensuring the AI cannot execute arbitrary destructive code.
+
+1. **User Input:** User speaks a command or types a prompt in the Dashboard UI.
+2. **Intent Parsing:** The local LLM (e.g., Ollama) processes the natural language to determine the required action.
+3. **MCP Tool Call:** The LLM requests execution of a specific, whitelisted tool via the Model Context Protocol server.
+4. **OS Execution:** The MCP server securely executes the system-level command (e.g., `kill <PID>`, `systemctl restart <service>`).
+5. **State Sync:** The OS state changes, and the visual dashboard updates in real-time to reflect the new system environment.
+
+---
+
 # Local System Control Center
 
 A modern, self-hosted web dashboard for discovering, monitoring, managing, and auditing system services, device information, background processes, development servers, Docker containers, and active network ports on your local machine.
+
+#
+>> # **Note >> The MCP Option is Not Build Yet , I Will Update it as Soon as Possible !**
 
 ## Features
 
@@ -12,7 +48,10 @@ A modern, self-hosted web dashboard for discovering, monitoring, managing, and a
 - **Audit Logging** - Complete audit trail of all management actions
 - **Real-time Metrics** - CPU, memory, disk, and network utilization
 - **Dark Theme** - Professional system-monitoring aesthetic
+- **MCP** Access LLM via the Model Context Protocol server.
 
+
+**Demo Video**
  https://github.com/dhesigan2924/system-control-center/blob/main/systemcontrolcenter.mp4
 
 ## Requirements
