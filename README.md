@@ -13,6 +13,8 @@ A modern, self-hosted web dashboard for discovering, monitoring, managing, and a
 - **Real-time Metrics** - CPU, memory, disk, and network utilization
 - **Dark Theme** - Professional system-monitoring aesthetic
 
+ https://github.com/dhesigan2924/system-control-center/blob/main/systemcontrolcenter.mp4
+
 ## Requirements
 
 - Linux (tested on Kali/Debian/Ubuntu)
